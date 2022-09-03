@@ -55,7 +55,7 @@ public class BatchConfig {
     }
 
     @Bean Step step1() {
-        return stepBuilderFactory.get("step1").<MovieRow, MovieRow>chunk(1000)
+        return stepBuilderFactory.get("step1").<MovieRow, MovieRow>chunk(10)
                 .reader(movieRowReader())
                 .writer(movieRowWriter())
                 .faultTolerant()

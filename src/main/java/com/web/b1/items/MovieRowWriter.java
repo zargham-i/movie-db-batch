@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MovieRowWriter implements ItemWriter<MovieRow> {
 
-    private static final Logger logger = LoggerFactory.getLogger(BatchConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(MovieRowWriter.class);
 
     @Override
     public void write(List<? extends MovieRow> listMovieRow) {
