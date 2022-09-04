@@ -35,7 +35,7 @@ public class MovieRowReader implements ItemReader<MovieRow> {
          * 3.
          *
          */
-        if (flag == false)
+        if (!flag)
             downloadFile();
 
         String movieRowString = buffered.readLine();
@@ -44,19 +44,17 @@ public class MovieRowReader implements ItemReader<MovieRow> {
             return null;
         }
         else {
-            MovieRow movieRow = gson.fromJson(movieRowString, MovieRow.class);
-            return movieRow;
+            return gson.fromJson(movieRowString, MovieRow.class);
         }
     }
 
     private void downloadFile() throws IOException {
 
         LocalDate localDate = LocalDate.now().minusDays(1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM_dd_YYYY");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM_dd_yyyy");
 
         String fileName = "movie_ids_" + formatter.format(localDate) + ".json";
         String urlStr = "http://files.tmdb.org/p/exports/" + fileName + ".gz";
-        String filePath = "";
 
         URL url = new URL(urlStr);
         HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
