@@ -23,8 +23,8 @@ public class MovieRowWriter implements ItemWriter<MovieRow> {
             boolean video = listMovieRow.get(counter).isVideo();
             String originalTitle = listMovieRow.get(counter).getOriginal_title();
             Double popularity = listMovieRow.get(counter).getPopularity();
-            logger.info("id: " + String.valueOf(id) + " original title: " + originalTitle + " popularity: " +
-                popularity + " video: " + String.valueOf(video) + " adult: " + String.valueOf(adult));
+            //logger.info("id: " + String.valueOf(id) + " original title: " + originalTitle + " popularity: " +
+            //    popularity + " video: " + String.valueOf(video) + " adult: " + String.valueOf(adult));
             counter++;
         }
     }

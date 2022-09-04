@@ -5,24 +5,12 @@ import com.web.b1.model.MovieRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferUtils;
-import org.springframework.web.reactive.function.client.ExchangeStrategies;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -50,12 +38,13 @@ public class MovieRowReader implements ItemReader<MovieRow> {
         if (flag == false)
             downloadFile();
 
-        String readLine = buffered.readLine();
-        if (readLine == null) {
+        String movieRowString = buffered.readLine();
+        if (movieRowString == null) {
+            buffered.close();
             return null;
         }
         else {
-            MovieRow movieRow = gson.fromJson(readLine, MovieRow.class);
+            MovieRow movieRow = gson.fromJson(movieRowString, MovieRow.class);
             return movieRow;
         }
     }
