@@ -20,9 +20,14 @@ public class MovieRowWriter implements ItemWriter<MovieRow> {
     @Autowired
     private MovieRepositoryImpl movieRepository;
 
+    private boolean flag = false;
     @Override
     @Transactional
     public void write(List<? extends MovieRow> listMovieRow) {
+        if (!flag) {
+            movieRepository.truncateStg();
+            flag = true;
+        }
         movieRepository.saveAll((List<MovieRow>) listMovieRow);
     }
 }

@@ -1,10 +1,12 @@
-DROP TABLE IF EXISTS movie;
+DROP TABLE IF EXISTS MOVIE;
 
-CREATE TABLE movie
+/
+
+CREATE TABLE MOVIE
 (
     MOVIE_ID int PRIMARY KEY,
     IMDB_ID varchar(15),
-    TMDB_ID int NOT NULL,
+    TMDB_ID int NOT NULL UNIQUE,
     TITLE varchar(255),
     IMDB_RATING numeric(4, 2),
     IMDB_VOTES int,
@@ -32,10 +34,77 @@ CREATE TABLE movie
     DIRECTOR varchar(255)
 );
 
+/
+
 DROP SEQUENCE IF EXISTS MOVIE_ID_SEQ;
+
+/
 
 CREATE SEQUENCE MOVIE_ID_SEQ
     INCREMENT 1
 START 1
 OWNED BY movie.MOVIE_ID;
 
+/
+
+CREATE TABLE MOVIE_STAGING
+(
+    TMDB_ID int NOT NULL UNIQUE,
+    VIDEO_IND varchar(1),
+    POPULARITY numeric(10, 4),
+    TITLE varchar(255),
+    ADULT varchar(1)
+);
+
+/
+
+INSERT INTO MOVIE_STAGING (TMDB_ID, VIDEO_IND, POPULARITY, TITLE, ADULT)
+VALUES (?,?,?,?,?);
+
+/
+
+TRUNCATE TABLE movie_staging;
+
+/
+
+select count(*) from movie_staging; --744175
+
+/
+
+select count(*) from (
+                         select TMDB_ID, count(*) from movie_staging
+                         group by TMDB_ID
+                         having count(tmdb_id) > 0) as overall; --744175
+
+/
+
+CREATE OR REPLACE FUNCTION cleanMovieStg()
+RETURNS VOID AS $$
+DECLARE
+_query  text;
+BEGIN
+
+_query := 'TRUNCATE TABLE movie_staging';
+
+BEGIN
+        EXECUTE _query;
+        RAISE NOTICE 'QUERY EXECUTED SUCCESSFULLY';
+EXCEPTION
+        WHEN OTHERS
+        THEN
+            RAISE NOTICE 'ERROR WHILE EXECUTING THE QUERY: % %', SQLSTATE, SQLERRM;
+END;
+
+    RETURN;
+
+END $$ LANGUAGE plpgsql;
+
+/
+
+select cleanMovieStg();
+
+/
+
+select * from movie_staging order by POPULARITY desc;
+
+/
