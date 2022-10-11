@@ -21,6 +21,7 @@ public class MovieRowReader implements ItemReader<MovieRow> {
     private BufferedReader buffered;
     private Gson gson;
     private boolean flag = false;
+
     @Override
     public MovieRow read() throws Exception {
 

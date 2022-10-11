@@ -7,6 +7,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication(scanBasePackages = "com.web")
 @EnableBatchProcessing
@@ -14,7 +15,9 @@ import org.springframework.cache.annotation.EnableCaching;
 public class ProjectB1Application {
 	static final Logger log = LoggerFactory.getLogger(ProjectB1Application.class);
 	public static void main(String[] args) {
-		SpringApplication.run(ProjectB1Application.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(ProjectB1Application.class, args);
+		int exitCode = SpringApplication.exit(context);
+		System.exit(exitCode);
 	}
 
 }
