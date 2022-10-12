@@ -5,6 +5,32 @@ DROP TABLE IF EXISTS MOVIE;
 CREATE TABLE MOVIE
 (
     MOVIE_ID int PRIMARY KEY,
+    TMDB_ID int NOT NULL UNIQUE,
+    TITLE varchar(255),
+    POPULARITY numeric(10, 4),
+    IMDB_ID varchar(15),
+    BACKDROP_IMG_URL varchar(500),
+    BUDGET int,
+    --BELONGS_TO_COLLECTION varchar(1), not mapped for now
+    HOMEPAGE_URL varchar(5000),
+    LANGUAGE varchar(255),
+    ORIGINAL_TITLE varchar(255),
+    OVERVIEW varchar(10000),
+    POSTER_URL varchar(255),
+    RELEASE_DATE date,
+    REVENUE int,
+    RUNTIME int,
+    ADULT_IND varchar(1),
+    VOTE_AVG numeric(10,4),
+    VOTE_COUNT int,
+    STATUS varchar(50),
+    VIDEO_IND int
+);
+
+/*
+CREATE TABLE MOVIE
+(
+    MOVIE_ID int PRIMARY KEY,
     IMDB_ID varchar(15),
     TMDB_ID int NOT NULL UNIQUE,
     TITLE varchar(255),
@@ -33,6 +59,7 @@ CREATE TABLE MOVIE
     DVD DATE,
     DIRECTOR varchar(255)
 );
+*/
 
 /
 
@@ -106,5 +133,7 @@ select cleanMovieStg();
 /
 
 select * from movie_staging order by POPULARITY desc;
+select * from movie_staging where TMDB_ID = 550;
+SELECT * FROM movie_staging order by POPULARITY desc LIMIT 5000;
 
 /
