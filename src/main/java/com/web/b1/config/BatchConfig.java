@@ -82,12 +82,7 @@ public class BatchConfig {
     @Bean(name = "movieRowParse-JobLauncher")
     public void run() {
         try {
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLong("time", System.currentTimeMillis())
-                    .toJobParameters();
-            JobExecution execution = jobLauncher.run(movieRowParseJob(), jobParameters);
-            logger.info("JobExecution Status : " + execution.getStatus());
-
+            logger.info("Batch process started");
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
